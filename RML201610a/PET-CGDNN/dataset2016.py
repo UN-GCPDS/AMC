@@ -5,7 +5,7 @@ from numpy import linalg as la
 
 maxlen=128
 
-def load_data(filename=r'.\RML2016.10a_dict.pkl'):
+def load_data(filename=r'../RML2016.10a_dict.pkl'):
     Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1')#Xd(1cd 20W,2,128) 10calss*20SNR*6000samples
     mods,snrs = [sorted(list(set([k[j] for k in Xd.keys()]))) for j in [0,1] ] #mods['8PSK', 'AM-DSB', 'BPSK', 'CPFSK', 'GFSK', 'PAM4', 'QAM16', 'QAM64', 'QPSK', 'WBFM']
     X = []

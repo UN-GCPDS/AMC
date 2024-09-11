@@ -1,48 +1,45 @@
 import os
-
-WEIGHTS_PATH = ('resnet_like_weights_tf_dim_ordering_tf_kernels.h5')
-
-from keras.models import Model
-from keras.layers import Input,Dense,Conv1D,MaxPool1D,ReLU,Dropout,Softmax,concatenate,Flatten,Reshape,LeakyReLU,Subtract,CuDNNGRU
-from keras.layers.convolutional import Conv2D
-from keras.layers import CuDNNLSTM,AveragePooling2D,MaxPool2D,Add
-
+import tensorflow as tf
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, Dropout, Flatten, concatenate, Add
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import plot_model
 
 def MCNET(weights=None,
-           input_shape=[2,128],
+           input_shape=[2, 128],
            input_shape2=[1024],
            classes=11,
            **kwargs):
-    if weights is not None and not (os.path.exists(weights)):
+    if weights is not None and not os.path.exists(weights):
         raise ValueError('The `weights` argument should be either '
                          '`None` (random initialization), '
                          'or the path to the weights file to be loaded.')
 
-    input = Input(input_shape + [1], name='input1')
+    input = Input(shape=input_shape + [1], name='input1')
     x1 = Conv2D(64, (3, 7), strides=(1, 2), activation="relu", padding='same', name="conv1_1",
                 kernel_initializer='glorot_uniform')(input)
-    x1 = MaxPool2D((1, 3), strides=(1, 2), padding='same', name="pool1_1", data_format='channels_last')(x1)
+    x1 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool1_1")(x1)
 
-    # preblock
+    # Preblock
     x2 = Conv2D(32, (3, 1), strides=(1, 1), activation="relu", padding='same', name="conv2_1",
                 kernel_initializer='glorot_uniform')(x1)
-    x2 = AveragePooling2D((1, 3), strides=(1, 2), padding='same', name="pool2_1", data_format='channels_last')(x2)
+    x2 = AveragePooling2D((1, 3), strides=(1, 2), padding='same', name="pool2_1")(x2)
     x22 = Conv2D(32, (1, 3), strides=(1, 2), activation="relu", padding='same', name="conv2_2",
                  kernel_initializer='glorot_uniform')(x1)
     x222 = concatenate([x2, x22], axis=-1)
 
-    # skip
+    # Skip
     xx1 = Conv2D(128, (1, 1), strides=(1, 2), activation="relu", padding='same', name="conv111",
                  kernel_initializer='glorot_uniform')(x222)
-    xx1 = MaxPool2D((1, 3), strides=(1, 2), padding='same', data_format='channels_last', name="pool2_2")(xx1)
+    xx1 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool2_2")(xx1)
 
     # Mblockp1
-    x3 = MaxPool2D((1, 3), strides=(1, 2), padding='same', data_format='channels_last', name="pool3_1")(x222)
+    x3 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool3_1")(x222)
     x3 = Conv2D(32, (1, 1), strides=(1, 1), padding='same', activation="relu", name="conv3_1",
                 kernel_initializer='glorot_uniform')(x3)
     x31 = Conv2D(48, (3, 1), strides=(1, 1), padding='same', activation="relu", name="conv3_2",
                  kernel_initializer='glorot_uniform')(x3)
-    x31 = MaxPool2D((1, 3), strides=(1, 2), padding='same', name="pool3_2")(x31)
+    x31 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool3_2")(x31)
     x32 = Conv2D(48, (1, 3), strides=(1, 2), padding='same', activation="relu", name="conv3_3",
                  kernel_initializer='glorot_uniform')(x3)
     x33 = Conv2D(32, (1, 1), strides=(1, 2), padding='same', activation="relu", name="conv3_4",
@@ -50,7 +47,7 @@ def MCNET(weights=None,
     x31 = concatenate([x31, x32], axis=-1)
     x333 = concatenate([x33, x31], axis=-1)
 
-    # add1
+    # Add1
     add1 = Add()([x333, xx1])
     # Mblock2
     x4 = Conv2D(32, (1, 1), strides=(1, 1), padding='same', activation="relu", name="conv4_1",
@@ -64,14 +61,14 @@ def MCNET(weights=None,
     x41 = concatenate([x41, x42], axis=-1)
     x444 = concatenate([x43, x41], axis=-1)
 
-    # add2
+    # Add2
     add2 = Add()([x444, add1])
     # Mblockp3
     x5 = Conv2D(32, (1, 1), strides=(1, 1), padding='same', activation="relu", name="conv5_1",
                 kernel_initializer='glorot_uniform')(add2)
     x51 = Conv2D(48, (3, 1), strides=(1, 1), padding='same', activation="relu", name="conv5_2",
                  kernel_initializer='glorot_uniform')(x5)
-    x51 = MaxPool2D((1, 3), strides=(1, 2), padding='same', name="pool5_2")(x51)
+    x51 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool5_2")(x51)
     x52 = Conv2D(48, (1, 3), strides=(1, 2), padding='same', activation="relu", name="conv5_3",
                  kernel_initializer='glorot_uniform')(x5)
     x53 = Conv2D(32, (1, 1), strides=(1, 2), padding='same', activation="relu", name="conv5_4",
@@ -79,8 +76,8 @@ def MCNET(weights=None,
     x51 = concatenate([x51, x52], axis=-1)
     x555 = concatenate([x53, x51], axis=-1)
 
-    # add3
-    ad3 = MaxPool2D((2, 2), strides=(1, 2), padding='same', name="pool5_3")(add2)
+    # Add3
+    ad3 = MaxPooling2D((2, 2), strides=(1, 2), padding='same', name="pool5_3")(add2)
     add3 = Add()([x555, ad3])
 
     # Mblockp4
@@ -95,14 +92,14 @@ def MCNET(weights=None,
     x61 = concatenate([x61, x62], axis=-1)
     x666 = concatenate([x63, x61], axis=-1)
 
-    # add4
+    # Add4
     add4 = Add()([x666, add3])
     # Mblockp5
     x7 = Conv2D(32, (1, 1), strides=(1, 1), padding='same', activation="relu", name="conv7_1",
                 kernel_initializer='glorot_uniform')(add4)
     x71 = Conv2D(48, (3, 1), strides=(1, 1), padding='same', activation="relu", name="conv7_2",
                  kernel_initializer='glorot_uniform')(x7)
-    x71 = MaxPool2D((1, 3), strides=(1, 2), padding='same', name="pool7_2")(x71)
+    x71 = MaxPooling2D((1, 3), strides=(1, 2), padding='same', name="pool7_2")(x71)
     x72 = Conv2D(48, (1, 3), strides=(1, 2), padding='same', activation="relu", name="conv7_3",
                  kernel_initializer='glorot_uniform')(x7)
     x73 = Conv2D(32, (1, 1), strides=(1, 2), padding='same', activation="relu", name="conv7_4",
@@ -110,8 +107,8 @@ def MCNET(weights=None,
     x71 = concatenate([x71, x72], axis=-1)
     x777 = concatenate([x73, x71], axis=-1)
 
-    # add5
-    ad5 = MaxPool2D((2, 2), strides=(1, 2), padding='same', name="pool7_3")(add4)
+    # Add5
+    ad5 = MaxPooling2D((2, 2), strides=(1, 2), padding='same', name="pool7_3")(add4)
     add5 = Add()([x777, ad5])
     # Mblockp6
     x8 = Conv2D(32, (1, 1), strides=(1, 1), padding='same', activation="relu", name="conv8_1",
@@ -133,19 +130,18 @@ def MCNET(weights=None,
 
     model = Model(inputs=input, outputs=x)
 
-        # Load weights.
+    # Load weights
     if weights is not None:
-            model.load_weights(weights)
+        model.load_weights(weights)
 
     return model
-import keras
-from keras.utils.vis_utils import plot_model
-if __name__ == '__main__':
-    model = MCNET(None,classes=11)
 
-    adam = keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+if __name__ == '__main__':
+    model = MCNET(None, classes=11)
+
+    adam = Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
     model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=adam)
-    plot_model(model, to_file='model.png',show_shapes=True) # print model
-    print('models layers:', model.layers)
-    print('models config:', model.get_config())
-    print('models summary:', model.summary())
+    plot_model(model, to_file='model.png', show_shapes=True) # Print model
+    print('Model layers:', model.layers)
+    print('Model config:', model.get_config())
+    print('Model summary:', model.summary())

@@ -1,3 +1,4 @@
+"Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
 import matplotlib
 #matplotlib.use('Tkagg')
 import matplotlib.pyplot as plt 
@@ -17,14 +18,14 @@ def show_history(history):
 
     plt.figure()
     plt.title('Training accuracy performance')
-    plt.plot(history.epoch, history.history['acc'], label='train_acc')
-    plt.plot(history.epoch, history.history['val_acc'], label='val_acc')
+    plt.plot(history.epoch, history.history['accuracy'], label='train_acc')
+    plt.plot(history.epoch, history.history['val_accuracy'], label='val_acc')
     plt.legend()    
-    plt.savefig('figure/total_acc.png')
+    plt.savefig('figure/total_accuracy.png')
     plt.close()
 
-    train_acc=history.history['acc']
-    val_acc=history.history['val_acc']
+    train_acc=history.history['accuracy']
+    val_acc=history.history['val_accuracy']
     train_loss=history.history['loss']
     val_loss=history.history['val_loss']
     epoch=history.epoch
@@ -42,7 +43,7 @@ def plot_lstm2layer_output(a,modulation_type=None,save_filename=None):
     plt.figure(figsize=(4,3),dpi=600)
     plt.plot(range(128),a[0],label=modulation_type)
     plt.legend()
-    plt.xticks([])
+    plt.xticks([])  #去掉横坐标值
     plt.yticks([])
     plt.savefig(save_filename,dpi=600,bbox_inches ='tight')
     plt.tight_layout()
@@ -52,7 +53,7 @@ def plot_conv4layer_output(a,modulation_type=None):
     plt.figure(figsize=(4,3),dpi=600)
     for i in range(100):
         plt.plot(range(124),a[0,0,:,i])
-        plt.xticks([])
+        plt.xticks([])  #去掉横坐标值
         plt.yticks(size=20)
         save_filename='./figure_conv4_output/output%d.png'%i
         plt.savefig(save_filename,dpi=600,bbox_inches='tight')
@@ -81,6 +82,8 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
             
 
     plt.tight_layout()
+    #plt.ylabel('True label',fontdict={'size':8,})
+    #plt.xlabel('Predicted label',fontdict={'size':8,})
     if save_filename is not None:
         plt.savefig(save_filename,dpi=600,bbox_inches = 'tight')
     plt.close()

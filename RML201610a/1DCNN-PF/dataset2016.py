@@ -51,7 +51,7 @@ def to_amp_phase(X_train,X_val,X_test,nsamples):
     return (X_train,X_val,X_test)
 
 # dataset path
-def load_data(filename=r'E:\Richard_zhangxx\My_Research\AMR\Thesis_code\Thesis_code1080ti-experiment\data\RML2016.10a_dict.pkl'):
+def load_data(filename=r'../RML2016.10a_dict.pkl'):
     Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1')#Xd(120W,2,128) 10calss*20SNR*6000samples
     mods,snrs = [sorted(list(set([k[j] for k in Xd.keys()]))) for j in [0,1] ] #mods['8PSK', 'AM-DSB', 'BPSK', 'CPFSK', 'GFSK', 'PAM4', 'QAM16', 'QAM64', 'QPSK', 'WBFM']
     X = []

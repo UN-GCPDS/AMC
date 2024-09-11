@@ -50,7 +50,7 @@ def to_amp_phase(X_train,X_val,X_test,nsamples):
     X_test = np.transpose(np.array(X_test),(0,2,1))
     return (X_train,X_val,X_test)
     
-def load_data(filename=r'/home/neural/ZhangFuXin/AMR/tranining/RML2016.10a_dict.pkl'):
+def load_data(filename=r'../RML2016.10a_dict.pkl'):
     Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1')#Xd(120W,2,128) 10calss*20SNR*6000samples
     mods,snrs = [sorted(list(set([k[j] for k in Xd.keys()]))) for j in [0,1] ] #mods['8PSK', 'AM-DSB', 'BPSK', 'CPFSK', 'GFSK', 'PAM4', 'QAM16', 'QAM64', 'QPSK', 'WBFM']
     X = []

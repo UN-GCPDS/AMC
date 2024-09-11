@@ -1,3 +1,4 @@
+"Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
 import matplotlib
 #matplotlib.use('Tkagg')
 import matplotlib.pyplot as plt 
@@ -17,14 +18,14 @@ def show_history(history):
 
     plt.figure()
     plt.title('Training accuracy performance')
-    plt.plot(history.epoch, history.history['acc'], label='train_acc')
-    plt.plot(history.epoch, history.history['val_acc'], label='val_acc')
+    plt.plot(history.epoch, history.history['accuracy'], label='train_acc')
+    plt.plot(history.epoch, history.history['val_accuracy'], label='val_acc')
     plt.legend()    
-    plt.savefig('figure/total_acc.png')
+    plt.savefig('figure/total_accuracy.png')
     plt.close()
 
-    train_acc=history.history['acc']
-    val_acc=history.history['val_acc']
+    train_acc=history.history['accuracy']
+    val_acc=history.history['val_accuracy']
     train_loss=history.history['loss']
     val_loss=history.history['val_loss']
     epoch=history.epoch
