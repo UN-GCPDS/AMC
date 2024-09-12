@@ -52,7 +52,7 @@ class ThresholdDenoisingLayer(tf.keras.layers.Layer):
 
 
     
-def MCLDNN(input_shape=[2, 128], classes=11):
+def MCLDNN(weights=None, input_shape=[2, 128], classes=11):
     inputs = Input(shape=(input_shape[0], input_shape[1], 1))
     
     # Apply batch normalization
@@ -86,5 +86,6 @@ def MCLDNN(input_shape=[2, 128], classes=11):
     outputs = Dense(11, activation='softmax')(x)
 
     model = Model(inputs=inputs, outputs=outputs)
-
+    if weights is not None:
+        model.load_weights(weights
     return model
