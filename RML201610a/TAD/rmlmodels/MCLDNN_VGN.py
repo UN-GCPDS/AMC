@@ -6,8 +6,8 @@ import tensorflow.keras.backend as K
 import tensorflow as tf
 
 import tensorflow as tf
-from .RFFfunctions import *
-from .Denoiser import *
+from RFFfunctions import *
+from Denoiser import *
 
 class ThresholdDenoisingLayer(tf.keras.layers.Layer):
     def __init__(self):
