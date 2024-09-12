@@ -87,5 +87,5 @@ def MCLDNN(weights=None, input_shape=[2, 128], classes=11):
 
     model = Model(inputs=inputs, outputs=outputs)
     if weights is not None:
-        model.load_weights(weights
+        model.load_weights(weights)
     return model
