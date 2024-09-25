@@ -142,7 +142,6 @@ Pipfile.lock
 *.db
 
 # Ignore PDF, PNG, Keras, and TensorFlow related files
-*.pdf
 *.png
 *.h5
 *.pb
