@@ -135,13 +135,7 @@ Pipfile.lock
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Pickle files
-*.pkl
-
 # Local database files
 *.db
 
-# Ignore PDF, PNG, Keras, and TensorFlow related files
-*.png
-*.h5
-*.pb
+*.dat
