@@ -1,9 +1,6 @@
 "Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
-import matplotlib
-#matplotlib.use('Tkagg')
 import matplotlib.pyplot as plt 
 import numpy as np
-import pickle
 
 # Show loss curves
 def show_history(history):
@@ -33,7 +30,6 @@ def show_history(history):
     np_val_acc=np.array(val_acc)
     np_train_loss=np.array(train_loss)
     np_val_loss=np.array(val_loss)
-    np_epoch=np.array(epoch)
     np.savetxt('train_acc.txt',np_train_acc)
     np.savetxt('train_loss.txt',np_train_loss)
     np.savetxt('val_acc.txt',np_val_acc)
@@ -105,27 +101,3 @@ def calculate_confusion_matrix(Y,Y_hat,classes):
     right = np.sum(np.diag(conf))
     wrong = np.sum(conf) - right
     return confnorm,right,wrong
-
-def main():
-    import dataset2016
-    import numpy as np
-    (mods,snrs,lbl),(X_train,Y_train),(X_val,Y_val),(X_test,Y_test),(train_idx,val_idx,test_idx) = \
-        dataset2016.load_data()
-
-    one_sample = X_test[0]
-    print(np.shape(one_sample))
-    print(one_sample[0:2])
-    print(np.max(one_sample,axis=1))
-    one_sample = np.power(one_sample,2)
-    one_sample = np.sqrt(one_sample[0,:]+one_sample[1,:])
-
-    plt.figure()
-    plt.title('Training Samples')
-    one_sample_t = np.arange(128)
-    plt.plot(one_sample_t,one_sample)
-    # plt.scatter()
-    plt.grid()
-    plt.show()
-
-    sum_sample = np.sum(one_sample)
-    print(sum_sample)
