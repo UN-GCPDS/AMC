@@ -1,4 +1,5 @@
 "Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
+import matplotlib
 import matplotlib.pyplot as plt 
 import numpy as np
 
@@ -12,7 +13,6 @@ def show_history(history):
     plt.savefig('figure/total_loss.pdf')
     plt.close()
  
-
     plt.figure()
     plt.title('Training accuracy performance')
     plt.plot(history.epoch, history.history['accuracy'], label='train_acc')
@@ -56,7 +56,6 @@ def plot_conv4layer_output(a,modulation_type=None):
         plt.tight_layout()
         plt.close()
  
-
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues"), labels=[],save_filename=None):
     plt.figure(figsize=(4, 3),dpi=600)
     plt.imshow(cm*100, interpolation='nearest', cmap=cmap)
@@ -76,7 +75,6 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
                 else:
                     text=plt.text(j,i,int(np.around(cm[i,j]*100)),ha="center",va="center",fontsize=10,color='darkorange')
             
-
     plt.tight_layout()
     #plt.ylabel('True label',fontdict={'size':8,})
     #plt.xlabel('Predicted label',fontdict={'size':8,})
