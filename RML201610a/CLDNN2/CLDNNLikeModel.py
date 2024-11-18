@@ -2,7 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Conv1D, MaxPool1D, ReLU, Dropout, Softmax, concatenate, Conv2D, LSTM, Permute, Reshape, ZeroPadding2D, Activation
+from tensorflow.keras.layers import Input, Dense, Dropout, Conv2D, LSTM, Reshape, Activation
 from tensorflow.keras.optimizers import Adam
 
 def CLDNNLikeModel(weights=None,

@@ -1,5 +1,4 @@
 "Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
-import matplotlib
 import matplotlib.pyplot as plt 
 import numpy as np
 

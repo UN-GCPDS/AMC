@@ -1,8 +1,7 @@
 import os
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, ReLU, Dropout, Conv2D, MaxPool2D, Add, concatenate, Activation, Flatten
-from tensorflow.keras.utils import plot_model
+from tensorflow.keras.layers import Input, Dense, Dropout, Conv2D, concatenate, Activation, Flatten
 
 def DenseNet(weights=None,
              input_shape=[2, 128],

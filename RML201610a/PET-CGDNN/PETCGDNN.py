@@ -1,6 +1,5 @@
 import os
 import tensorflow as tf
-import math
 
 def cal1(x):
     return tf.keras.backend.cos(x)
@@ -68,9 +67,6 @@ if __name__ == '__main__':
 
     adam = tf.keras.optimizers.Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, amsgrad=False)
     model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=adam)
-    
-    # Plot model architecture
-    tf.keras.utils.plot_model(model, to_file='model.png', show_shapes=True)
     
     print('Model layers:', model.layers)
     print('Model config:', model.get_config())

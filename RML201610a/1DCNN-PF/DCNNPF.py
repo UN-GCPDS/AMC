@@ -13,7 +13,6 @@ def DLmodel(weights=None,
                          'or the path to the weights file to be loaded.')
 
     dr = 0.5  # dropout rate
-    tap = 8
 
     input1 = Input(input_shape, name='input1')
     Reshape1 = Reshape(input_shape + [1])(input1)
@@ -68,8 +67,6 @@ def DLmodel(weights=None,
         model.load_weights(weights)
 
     return model
-
-from tensorflow.keras.utils import plot_model
 
 if __name__ == '__main__':
     model = DLmodel(None, classes=11)

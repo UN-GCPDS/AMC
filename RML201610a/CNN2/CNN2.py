@@ -8,7 +8,7 @@ Adapted from code contributed by Mika.
 import os
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, ReLU, Dropout, Softmax, Conv2D, MaxPool2D, Flatten
+from tensorflow.keras.layers import Input, Dense, ReLU, Dropout, Conv2D, MaxPool2D, Flatten
 from tensorflow.keras.optimizers import Adam
 
 def CNN2(weights=None, input_shape=[2, 128], classes=11, **kwargs):

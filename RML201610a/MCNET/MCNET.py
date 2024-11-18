@@ -1,9 +1,7 @@
 import os
-import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, Dropout, Flatten, concatenate, Add
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.utils import plot_model
 
 def MCNET(weights=None,
            input_shape=[2, 128],
@@ -141,7 +139,6 @@ if __name__ == '__main__':
 
     adam = Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
     model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=adam)
-    plot_model(model, to_file='model.png', show_shapes=True) # Print model
     print('Model layers:', model.layers)
     print('Model config:', model.get_config())
     print('Model summary:', model.summary())

@@ -1,10 +1,8 @@
 import os
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Conv1D, MaxPool1D, ReLU, Dropout, Softmax, BatchNormalization, TimeDistributed
-from tensorflow.keras.layers import LSTM, Bidirectional, Flatten, Reshape, Lambda
-from tensorflow.keras.layers import Dropout
-from tensorflow.keras.utils import plot_model
+from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization, TimeDistributed, LSTM, Dropout
+
 
 def DAE(weights=None, input_shape=[128, 2], classes=11, **kwargs):
     if weights is not None and not (os.path.exists(weights)):

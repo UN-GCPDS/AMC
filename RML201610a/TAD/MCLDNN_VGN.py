@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, Flatten, Dropout, Add, Activation, BatchNormalization, ZeroPadding2D, Reshape, GlobalAveragePooling2D, Lambda,Layer, GaussianDropout,GRU
+from tensorflow.keras.layers import Input, Dense, Conv2D, Reshape, GaussianDropout,GRU
 from tensorflow.keras.models import Model
 import tensorflow.keras.backend as K
 
@@ -49,9 +49,6 @@ class ThresholdDenoisingLayer(tf.keras.layers.Layer):
         # Aplicación del umbral usando tf.where, elemento por elemento
         return tf.where(tf.abs(inputs) > tau, sign_x * adjusted_inputs, tf.zeros_like(inputs))
 
-
-
-    
 def MCLDNN(weights=None, input_shape=[2, 128], classes=11):
     inputs = Input(shape=(input_shape[0], input_shape[1], 1))
     
@@ -60,7 +57,6 @@ def MCLDNN(weights=None, input_shape=[2, 128], classes=11):
 
     # Apply first convolutional layer with kernel regularizer
     x = ConvRFF_SinCos(8, (2, 3), activation='relu', padding='SAME', trainable_W=False,trainable_scale=True)(x)
-   
 
     # Apply auto threshold denoising layer if necessary
     # x = ThresholdDenoisingLayer()(x)
@@ -83,7 +79,7 @@ def MCLDNN(weights=None, input_shape=[2, 128], classes=11):
     x = GRU(64)(x)
 
     # Final fully connected layer with softmax activation for classification
-    outputs = Dense(11, activation='softmax')(x)
+    outputs = Dense(classes, activation='softmax')(x)
 
     model = Model(inputs=inputs, outputs=outputs)
     if weights is not None:

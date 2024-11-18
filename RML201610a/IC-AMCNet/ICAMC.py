@@ -7,8 +7,7 @@
 import os
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, ReLU, Dropout, Softmax, Conv2D, MaxPooling2D, Flatten, GaussianNoise
-from tensorflow.keras.utils import plot_model
+from tensorflow.keras.layers import Input, Dense, Dropout, Conv2D, MaxPooling2D, Flatten, GaussianNoise
 
 def ICAMC(weights=None,
           input_shape=[2,128],

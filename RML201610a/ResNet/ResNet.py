@@ -2,7 +2,6 @@ import os
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Activation, Dropout, Conv2D, Flatten, Add
-from tensorflow.keras.utils import plot_model
 
 def ResNet(weights=None,
             input_shape=[2, 128],

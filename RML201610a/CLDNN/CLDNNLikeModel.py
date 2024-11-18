@@ -2,12 +2,11 @@ import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Conv1D, MaxPooling1D, ReLU, Dropout, Softmax, concatenate, Conv2D, LSTM
-from tensorflow.keras.layers import Permute, Reshape, ZeroPadding2D, Activation
+from tensorflow.keras.layers import Input, Dense, Dropout, concatenate, Conv2D, LSTM, Reshape, ZeroPadding2D, Activation
 from tensorflow.keras.optimizers import Adam
 
 def CLDNNLikeModel(weights=None,
-                   input_shape1=[2, 128],
+                   input_shape=(1, 2, 128),
                    classes=11,
                    **kwargs):
     if weights is not None and not os.path.exists(weights):
@@ -16,7 +15,7 @@ def CLDNNLikeModel(weights=None,
                          'or the path to the weights file to be loaded.')
 
     dr = 0.5
-    input_x = Input(shape=(1, 2, 128))
+    input_x = Input(shape=input_shape)
 
     input_x_padding = ZeroPadding2D((0, 2), data_format="channels_first")(input_x)
 
