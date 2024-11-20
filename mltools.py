@@ -21,7 +21,7 @@ def show_history(history, filepath):
     plt.close()
 
     train_acc=history.history['accuracy']
-    val_acc=history.history['val_acc']
+    val_acc=history.history['val_accuracy']
     train_loss=history.history['loss']
     val_loss=history.history['val_loss']
     epoch=history.epoch
