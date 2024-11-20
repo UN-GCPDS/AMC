@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Show loss curves
-def show_history(history):
+def show_history(history, filepath):
     plt.figure()
     plt.title('Training loss performance')
     plt.plot(history.epoch, history.history['loss'], label='train loss+error')
     plt.plot(history.epoch, history.history['val_loss'], label='val_error')
     plt.legend()
-    plt.savefig('figure/total_loss.pdf')
+    plt.savefig(f'{filepath}/total_loss.pdf')
     plt.close()
  
     plt.figure()
@@ -17,7 +17,7 @@ def show_history(history):
     plt.plot(history.epoch, history.history['accuracy'], label='train_acc')
     plt.plot(history.epoch, history.history['val_accuracy'], label='val_acc')
     plt.legend()    
-    plt.savefig('figure/total_acc.pdf')
+    plt.savefig(f'{filepath}/total_acc.pdf')
     plt.close()
 
     train_acc=history.history['accuracy']
@@ -29,10 +29,10 @@ def show_history(history):
     np_val_acc=np.array(val_acc)
     np_train_loss=np.array(train_loss)
     np_val_loss=np.array(val_loss)
-    np.savetxt('train_acc.txt',np_train_acc)
-    np.savetxt('train_loss.txt',np_train_loss)
-    np.savetxt('val_acc.txt',np_val_acc)
-    np.savetxt('val_loss.txt',np_val_loss)
+    np.savetxt(f'{filepath}/train_acc.txt',np_train_acc)
+    np.savetxt(f'{filepath}/train_loss.txt',np_train_loss)
+    np.savetxt(f'{filepath}/val_acc.txt',np_val_acc)
+    np.savetxt(f'{filepath}/val_loss.txt',np_val_loss)
 
 def plot_lstm2layer_output(a,modulation_type=None,save_filename=None):
     plt.figure(figsize=(4,3),dpi=600)
