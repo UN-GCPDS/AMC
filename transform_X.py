@@ -8,8 +8,6 @@ def rotate_matrix(theta):
     m[0, 1] = -np.sin(theta)
     m[1, 0] = np.sin(theta)
     m[1, 1] = np.cos(theta)
-    print(m)
-    return m
 
 def Rotate_DA(x, y):
     N, L, C = np.shape(x)
@@ -24,7 +22,6 @@ def Rotate_DA(x, y):
 
 
 def norm_pad_zeros(X_train,nsamples):
-    print ("Pad:", X_train.shape)
     for i in range(X_train.shape[0]):
         X_train[i,:,0] = X_train[i,:,0]/np.linalg.norm(X_train[i,:,0],2)
     return X_train
