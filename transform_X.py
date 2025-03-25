@@ -78,7 +78,7 @@ def transform(X, Y, model_):
     X_train, X_val, X_test = X
     Y_train, Y_val, Y_test = Y
     X_train_, X_val_, X_test_ = X_train.copy(), X_val.copy(), X_test.copy()
-    if model_ in ['GRU2']:
+    if model_ in ['GRU2', 'UlNN']:
         X_train_ = X_train_.swapaxes(2, 1)
         X_val_ = X_val_.swapaxes(2, 1)
         X_test_ = X_test_.swapaxes(2, 1)
