@@ -89,14 +89,14 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
     for i in range(len(tick_marks)):
         for j in range(len(tick_marks)):
             val = int_ann[i, j]
-            color = "white" if cm[i, j]*100.0 > thresh else "black"
+
             if i == j:
                 fs = 7 if val == 100 else 10
-                plt.text(j, i, val, ha="center", va="center",
-                        fontsize=fs, color=color)
+                color = "darkorange" if cm[i, j]*100.0 > thresh else "saddlebrown"
             else:
-                plt.text(j, i, val, ha="center", va="center",
-                        fontsize=10, color=color)
+                color = "white" if cm[i, j]*100.0 > thresh else "black"
+            plt.text(j, i, val, ha="center", va="center",
+                    fontsize=fs if i==j else 10, color=color)
             
     plt.tight_layout()
     #plt.ylabel('True label',fontdict={'size':8,})
