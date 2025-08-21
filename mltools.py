@@ -76,7 +76,9 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
     int_ann = np.vstack([_rowwise_integer_percentages_that_sum_to_100(cm[i])
                          for i in range(cm.shape[0])])
     plt.figure(figsize=(4, 3),dpi=600)
-    plt.imshow(cm*100, interpolation='nearest', cmap=cmap)
+    im = plt.imshow(cm*100, interpolation='nearest', cmap=cmap)
+    vmax = im.get_array().max()
+    thresh = vmax / 2.0
     #plt.title(title,fontsize=10)
     plt.colorbar()
     tick_marks = np.arange(len(labels))
@@ -86,13 +88,14 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
     for i in range(len(tick_marks)):
         for j in range(len(tick_marks)):
             val = int_ann[i, j]
-            if i!=j:
-                text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=10)
-            elif i==j:
-                if int(np.around(cm[i,j]*100))==100:
-                    text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=7,color='darkorange')
-                else:
-                    text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=10,color='darkorange')
+            color = "white" if cm[i, j]*100.0 > thresh else "black"
+            if i == j:
+                fs = 7 if val == 100 else 10
+                ax.text(j, i, val, ha="center", va="center",
+                        fontsize=fs, color=color)
+            else:
+                ax.text(j, i, val, ha="center", va="center",
+                        fontsize=10, color=color)
             
     plt.tight_layout()
     #plt.ylabel('True label',fontdict={'size':8,})
