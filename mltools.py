@@ -54,8 +54,27 @@ def plot_conv4layer_output(a,modulation_type=None):
         plt.savefig(save_filename,dpi=600,bbox_inches='tight')
         plt.tight_layout()
         plt.close()
- 
+ def _rowwise_integer_percentages_that_sum_to_100(row_probs):
+    """Largest remainder method per row to make integers that sum to 100."""
+    x = row_probs * 100.0
+    floors = np.floor(x).astype(int)
+    remainders = x - floors
+    deficit = 100 - floors.sum()
+    if deficit > 0:
+        # add 1 to the entries with largest remainders
+        idx = np.argsort(-remainders)[:deficit]
+        floors[idx] += 1
+    elif deficit < 0:
+        # (rare) remove 1 from the entries with smallest remainders
+        idx = np.argsort(remainders)[:(-deficit)]
+        floors[idx] -= 1
+    return floors
+     
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues"), labels=[],save_filename=None):
+    row_sums = cm.sum(axis=1, keepdims=True)
+    cm = np.divide(cm, row_sums,where=row_sums!=0)
+    int_ann = np.vstack([_rowwise_integer_percentages_that_sum_to_100(cm[i])
+                         for i in range(cm.shape[0])])
     plt.figure(figsize=(4, 3),dpi=600)
     plt.imshow(cm*100, interpolation='nearest', cmap=cmap)
     #plt.title(title,fontsize=10)
@@ -66,13 +85,14 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
     #np.set_printoptions(precision=2, suppress=True)
     for i in range(len(tick_marks)):
         for j in range(len(tick_marks)):
+            val = int_ann[i, j]
             if i!=j:
-                text=plt.text(j,i,int(np.around(cm[i,j]*100)),ha="center",va="center",fontsize=10)
+                text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=10)
             elif i==j:
                 if int(np.around(cm[i,j]*100))==100:
-                    text=plt.text(j,i,int(np.around(cm[i,j]*100)),ha="center",va="center",fontsize=7,color='darkorange')
+                    text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=7,color='darkorange')
                 else:
-                    text=plt.text(j,i,int(np.around(cm[i,j]*100)),ha="center",va="center",fontsize=10,color='darkorange')
+                    text=plt.text(j,i,int(np.around(val)),ha="center",va="center",fontsize=10,color='darkorange')
             
     plt.tight_layout()
     #plt.ylabel('True label',fontdict={'size':8,})
