@@ -92,10 +92,10 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.get_cmap("Blues
             color = "white" if cm[i, j]*100.0 > thresh else "black"
             if i == j:
                 fs = 7 if val == 100 else 10
-                ax.text(j, i, val, ha="center", va="center",
+                plt.text(j, i, val, ha="center", va="center",
                         fontsize=fs, color=color)
             else:
-                ax.text(j, i, val, ha="center", va="center",
+                plt.text(j, i, val, ha="center", va="center",
                         fontsize=10, color=color)
             
     plt.tight_layout()
