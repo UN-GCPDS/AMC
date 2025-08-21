@@ -54,7 +54,8 @@ def plot_conv4layer_output(a,modulation_type=None):
         plt.savefig(save_filename,dpi=600,bbox_inches='tight')
         plt.tight_layout()
         plt.close()
- def _rowwise_integer_percentages_that_sum_to_100(row_probs):
+
+def _rowwise_integer_percentages_that_sum_to_100(row_probs):
     """Largest remainder method per row to make integers that sum to 100."""
     x = row_probs * 100.0
     floors = np.floor(x).astype(int)
